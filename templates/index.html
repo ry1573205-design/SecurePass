@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071326">
+    <title>SecurePass | Password Security Toolkit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a href="#" class="brand">
+            <span class="brand-icon">⬡</span>
+            <span>
+                <strong>Secure<span>Pass</span></strong>
+                <small>Stronger Passwords. Safer You.</small>
+            </span>
+        </a>
+
+        <nav>
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#analyzer" class="nav-link">Analyzer</a>
+            <a href="#breach" class="nav-link">Breach Check</a>
+            <a href="#generator" class="nav-link">Generator</a>
+        </nav>
+
+        <span class="secure-status"><span></span> Stay Secure</span>
+    </header>
+
+    <main id="home">
+        <section class="hero">
+            <span class="eyebrow">CYBERSECURITY TOOLKIT</span>
+            <h1>Security starts with <span>you.</span></h1>
+            <p>Analyze password strength, check known breaches, and generate<br class="desktop-only">
+                secure passwords — all in one place.</p>
+            <div class="hero-points">
+                <span>♢ Stronger Security</span>
+                <span>✧ Fast &amp; Reliable</span>
+                <span>♙ Privacy Matters</span>
+            </div>
+        </section>
+
+        <section class="dashboard">
+            <article class="panel analyzer-panel" id="analyzer">
+                <div class="panel-heading">
+                    <div class="panel-icon blue-icon">▥</div>
+                    <div>
+                        <h2>Password Strength Analyzer</h2>
+                        <p>Understand your password's strength and weaknesses.</p>
+                    </div>
+                </div>
+
+                <form id="analyze-form">
+                    <div class="input-wrap">
+                        <span>♙</span>
+                        <input id="analyze-password" type="password"
+                            placeholder="Enter a test password"
+                            autocomplete="off" maxlength="256">
+                        <button type="button" class="icon-button"
+                            data-toggle="analyze-password" aria-label="Show password">◉</button>
+                    </div>
+                    <button class="primary-button blue-button" type="submit">
+                        Analyze Password
+                    </button>
+                </form>
+
+                <div class="result-box" aria-live="polite">
+                    <div class="strength-heading">
+                        <span>Strength</span>
+                        <strong id="strength-label">Not checked</strong>
+                    </div>
+                    <div class="strength-track">
+                        <div id="strength-fill"></div>
+                    </div>
+
+                    <div class="metric"><span>Score</span><strong id="score">—</strong></div>
+                    <div class="metric"><span>Length</span><strong id="length">—</strong></div>
+                    <div class="metric"><span>Entropy estimate</span><strong id="entropy">—</strong></div>
+                    <div class="metric"><span>Estimated crack time</span><strong id="crack-time">—</strong></div>
+
+                    <div class="suggestions">
+                        <h3>💡 Suggestions</h3>
+                        <ul id="suggestions-list">
+                            <li>Enter a password to begin analysis.</li>
+                        </ul>
+                    </div>
+                    <p id="analyze-message" class="message" role="status"></p>
+                </div>
+            </article>
+
+            <article class="panel breach-panel" id="breach">
+                <div class="panel-heading">
+                    <div class="panel-icon purple-icon">▤</div>
+                    <div>
+                        <h2>Breach Checker</h2>
+                        <p>Check whether a password appears in known data breaches.</p>
+                    </div>
+                </div>
+
+                <form id="breach-form">
+                    <div class="input-wrap">
+                        <span>♙</span>
+                        <input id="breach-password" type="password"
+                            placeholder="Enter a test password"
+                            autocomplete="off" maxlength="256">
+                        <button type="button" class="icon-button"
+                            data-toggle="breach-password" aria-label="Show password">◉</button>
+                    </div>
+                    <button class="primary-button purple-button" type="submit">
+                        Check for Breaches
+                    </button>
+                </form>
+
+                <div class="result-box breach-results" aria-live="polite">
+                    <div class="metric"><span>Breach status</span><strong id="breach-status">—</strong></div>
+                    <div class="metric"><span>Found in breaches</span><strong id="breach-found">—</strong></div>
+                    <div class="metric"><span>Reported occurrences</span><strong id="breach-count">—</strong></div>
+
+                    <div class="privacy-note">
+                        <strong>🔒 Your privacy matters</strong>
+                        <p>The raw password is not sent to the breach API. Only the first five characters of its SHA-1 hash are sent for lookup. This improves privacy but does not guarantee zero risk.</p>
+                    </div>
+                    <p id="breach-message" class="message" role="status"></p>
+                </div>
+            </article>
+
+            <article class="panel generator-panel" id="generator">
+                <div class="panel-heading">
+                    <div class="panel-icon green-icon">✧</div>
+                    <div>
+                        <h2>Secure Password Generator</h2>
+                        <p>Create strong random passwords or memorable passphrases.</p>
+                    </div>
+                </div>
+
+                <div class="mode-switch">
+                    <button type="button" class="mode-button selected" data-mode="password">
+                        🔒 Password
+                    </button>
+                    <button type="button" class="mode-button" data-mode="passphrase">
+                        ☷ Passphrase
+                    </button>
+                </div>
+
+                <div id="password-options">
+                    <div class="option-heading">
+                        <label for="password-length">Password length</label>
+                        <output id="length-value">16</output>
+                    </div>
+                    <input id="password-length" type="range" min="12" max="64" value="16">
+                    <div class="range-labels"><span>12</span><span>64</span></div>
+                </div>
+
+                <div id="phrase-options" hidden>
+                    <div class="option-heading">
+                        <label for="word-count">Number of words</label>
+                        <output id="word-count-value">4</output>
+                    </div>
+                    <input id="word-count" type="range" min="4" max="8" value="4">
+                    <div class="range-labels"><span>4 words</span><span>8 words</span></div>
+                </div>
+
+                <button id="generate-button" class="primary-button green-button" type="button">
+                    ✧ Generate Secure Password
+                </button>
+
+                <div class="generated-box">
+                    <label for="generated-password">Generated result</label>
+                    <div class="generated-output">
+                        <input id="generated-password" type="password"
+                            readonly placeholder="Generate a password">
+                        <button type="button" id="show-generated" class="icon-button"
+                            aria-label="Show generated password">◉</button>
+                        <button type="button" id="copy-generated" class="icon-button"
+                            aria-label="Copy generated password">▢</button>
+                    </div>
+                    <p id="generator-message" class="message" role="status">
+                        Use a unique password for each account.
+                    </p>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-brand"><strong>SecurePass</strong><span>Stronger Passwords. Safer You.</span></div>
+        <p>Protect your accounts · Prevent data breaches · Build a safer digital future</p>
+        <small>Made for a safer internet ♥</small>
+    </footer>
+</body>
+</html>
